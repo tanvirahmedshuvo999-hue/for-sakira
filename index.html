@@ -1,29 +1,60 @@
+
 <!DOCTYPE html>
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ultimate Happy Birthday Experience! 🎂✨</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Outfit:wght@300;400;600;800&family=Great+Vibes&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
+        :root {
+            --font-bengali: 'Hind Siliguri', sans-serif;
+            --font-main: 'Outfit', sans-serif;
+            --font-cursive: 'Great Vibes', cursive;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: var(--font-bengali), var(--font-main);
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            background: radial-gradient(circle at center, #1a1c29 0%, #080511 100%);
+            background: #05020a;
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
+            color: #ffffff;
+            overflow-x: hidden;
             position: relative;
-            color: #fff;
         }
 
-        /* Canvas for Fireworks & Particles */
+        /* Deep Ambient Glowing Background */
+        .ambient-bg {
+            position: fixed;
+            inset: 0;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(147, 51, 234, 0.25) 0%, transparent 40%),
+                radial-gradient(circle at 80% 80%, rgba(236, 72, 153, 0.25) 0%, transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.15) 0%, transparent 60%),
+                radial-gradient(circle at 50% 0%, rgba(245, 158, 11, 0.15) 0%, transparent 50%);
+            z-index: 0;
+            filter: blur(40px);
+            animation: pulseAmbient 10s infinite alternate ease-in-out;
+        }
+
+        @keyframes pulseAmbient {
+            0% { transform: scale(1) rotate(0deg); }
+            100% { transform: scale(1.1) rotate(3deg); }
+        }
+
+        /* Canvas Overlay */
         #particleCanvas {
             position: fixed;
             top: 0;
@@ -31,311 +62,408 @@
             width: 100%;
             height: 100%;
             pointer-events: none;
-            z-index: 1;
+            z-index: 10;
         }
 
-        /* Gift Box Intro Overlay */
-        .intro-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(8, 5, 17, 0.96);
-            backdrop-filter: blur(20px);
-            z-index: 100;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            transition: opacity 0.8s ease, visibility 0.8s ease;
+        /* Premium Glassmorphism */
+        .glass-card {
+            background: rgba(18, 10, 32, 0.55);
+            backdrop-filter: blur(25px) saturate(180%);
+            -webkit-backdrop-filter: blur(25px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 
+                0 30px 60px rgba(0, 0, 0, 0.8),
+                0 0 40px rgba(236, 72, 153, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
         }
 
-        .intro-overlay.hidden {
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
+        .glass-btn {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .gift-box {
-            font-size: 90px;
-            cursor: pointer;
-            animation: bounceGift 2s infinite ease-in-out;
-            filter: drop-shadow(0 0 30px rgba(255, 105, 180, 0.6));
+        .glass-btn:hover {
+            background: rgba(255, 255, 255, 0.18);
+            border-color: rgba(255, 255, 255, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
         }
 
-        @keyframes bounceGift {
-            0%, 100% { transform: translateY(0) scale(1) rotate(0deg); }
-            50% { transform: translateY(-20px) scale(1.08) rotate(5deg); }
+        .glass-btn:active {
+            transform: translateY(1px);
         }
 
-        .open-btn {
-            margin-top: 25px;
-            background: linear-gradient(45deg, #ff758c, #ff7eb3);
-            color: white;
-            border: none;
-            padding: 14px 35px;
-            border-radius: 35px;
-            font-size: 18px;
-            font-weight: 600;
-            cursor: pointer;
-            box-shadow: 0 0 25px rgba(255, 117, 140, 0.6);
-            transition: all 0.3s ease;
+        /* Text Gradient & Glow */
+        .glow-text {
+            background: linear-gradient(135deg, #fff 0%, #ffd1ff 50%, #fda4af 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(244, 63, 94, 0.4);
         }
 
-        .open-btn:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 40px rgba(255, 117, 140, 0.9);
+        .gold-text {
+            background: linear-gradient(135deg, #fbbf24 0%, #fef08a 50%, #f59e0b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Profile Glow Ring */
+        .profile-container {
+            perspective: 1000px;
+        }
+
+        .profile-ring {
+            position: relative;
+            padding: 5px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #ec4899, #8b5cf6, #3b82f6, #f59e0b);
+            background-size: 300% 300%;
+            animation: glowingBorder 4s infinite linear;
+        }
+
+        @keyframes glowingBorder {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         /* Floating Balloons */
-        .balloon-container {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            top: 0;
-            left: 0;
-            pointer-events: none;
-            z-index: 2;
-        }
-
         .balloon {
             position: absolute;
-            bottom: -120px;
-            width: 45px;
-            height: 60px;
+            bottom: -150px;
+            width: 48px;
+            height: 62px;
             border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
-            animation: floatUp 9s infinite ease-in;
-            opacity: 0.8;
+            animation: floatBalloon 10s infinite ease-in;
+            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.4));
         }
 
         .balloon::before {
             content: "";
             position: absolute;
-            bottom: -10px;
-            left: 20px;
+            bottom: -12px;
+            left: 23px;
             width: 2px;
-            height: 35px;
-            background: rgba(255, 255, 255, 0.5);
+            height: 45px;
+            background: rgba(255, 255, 255, 0.45);
         }
 
-        @keyframes floatUp {
-            0% { transform: translateY(0) rotate(0deg); opacity: 0.8; }
-            100% { transform: translateY(-115vh) rotate(15deg); opacity: 0.1; }
-        }
-
-        /* Main Glass Card */
-        .card {
-            position: relative;
-            z-index: 10;
-            background: rgba(255, 255, 255, 0.07);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 30px;
-            padding: 35px 25px;
-            width: 92%;
-            max-width: 460px;
-            text-align: center;
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7), 0 0 40px rgba(255, 105, 180, 0.2);
-            transform: scale(0.85);
-            opacity: 0;
-            transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .card.show {
-            transform: scale(1);
-            opacity: 1;
-        }
-
-        /* Profile Image Container */
-        .profile-wrapper {
-            position: relative;
-            width: 150px;
-            height: 150px;
-            margin: 0 auto 15px;
-        }
-
-        .profile-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 50%;
-            border: 4px solid #ff758c;
-            box-shadow: 0 0 30px rgba(255, 117, 140, 0.9);
-            animation: pulseGlow 3s infinite alternate;
-        }
-
-        @keyframes pulseGlow {
-            0% { box-shadow: 0 0 20px rgba(255, 117, 140, 0.6); transform: scale(1); }
-            100% { box-shadow: 0 0 35px rgba(255, 117, 140, 1), 0 0 55px rgba(255, 126, 179, 0.8); transform: scale(1.03); }
-        }
-
-        .birthday-hat {
+        .balloon::after {
+            content: "";
             position: absolute;
-            top: -22px;
-            right: 5px;
-            font-size: 40px;
-            transform: rotate(20deg);
-            animation: bounceHat 2s infinite ease-in-out;
+            bottom: -4px;
+            left: 20px;
+            width: 8px;
+            height: 6px;
+            background: inherit;
+            border-radius: 3px;
         }
 
-        @keyframes bounceHat {
-            0%, 100% { transform: rotate(20deg) translateY(0); }
-            50% { transform: rotate(25deg) translateY(-8px); }
+        @keyframes floatBalloon {
+            0% { transform: translateY(0) rotate(0deg) scale(0.9); opacity: 0; }
+            10% { opacity: 0.9; }
+            90% { opacity: 0.8; }
+            100% { transform: translateY(-120vh) rotate(20deg) scale(1.05); opacity: 0; }
         }
 
-        h1 {
-            font-size: 26px;
-            font-weight: 800;
-            background: linear-gradient(45deg, #ff758c, #ff7eb3, #ffcc00);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 8px;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-        }
-
-        .subtitle {
-            font-size: 15px;
-            color: #dcd6f7;
-            margin-bottom: 20px;
-            line-height: 1.5;
-        }
-
-        .wish-box {
-            background: rgba(0, 0, 0, 0.35);
-            padding: 15px;
-            border-radius: 14px;
-            font-size: 14px;
-            color: #f3f3f3;
-            margin-bottom: 20px;
-            border-left: 4px solid #ff758c;
-            line-height: 1.6;
-            min-height: 70px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: opacity 0.3s ease;
-        }
-
-        .btn-group {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-
-        .btn {
-            background: linear-gradient(45deg, #ff758c, #ff7eb3);
-            color: white;
-            border: none;
-            padding: 11px 15px;
-            border-radius: 25px;
-            font-size: 14px;
-            font-weight: 600;
+        /* Candle Flame Animation */
+        .flame {
+            width: 14px;
+            height: 22px;
+            background: radial-gradient(ellipse at bottom, #fef08a 0%, #f97316 60%, transparent 100%);
+            border-radius: 50% 50% 20% 20%;
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: flicker 0.15s infinite alternate ease-in-out;
+            box-shadow: 0 0 15px #f97316, 0 0 30px #fef08a;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(255, 117, 140, 0.4);
-            outline: none;
         }
 
-        .btn:hover {
-            transform: translateY(-3px) scale(1.04);
-            box-shadow: 0 6px 20px rgba(255, 117, 140, 0.7);
+        .flame.extinguished {
+            display: none;
         }
 
-        .btn-secondary {
-            background: linear-gradient(45deg, #4facfe, #00f2fe);
-            box-shadow: 0 4px 15px rgba(79, 172, 254, 0.4);
+        @keyframes flicker {
+            0% { transform: translateX(-50%) scale(1) rotate(-2deg); }
+            100% { transform: translateX(-50%) scale(1.15) rotate(2deg); opacity: 0.95; }
         }
 
-        .btn-full {
-            grid-column: span 2;
-            background: linear-gradient(45deg, #f7b733, #fc4a1a);
-            box-shadow: 0 4px 15px rgba(252, 74, 26, 0.4);
+        /* Smoke Particle when Candle Extinguished */
+        .smoke {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            width: 8px;
+            height: 8px;
+            background: rgba(200, 200, 200, 0.6);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: riseSmoke 1.5s forwards ease-out;
         }
 
-        .footer-note {
-            margin-top: 10px;
-            font-size: 11px;
-            color: rgba(255, 255, 255, 0.5);
+        @keyframes riseSmoke {
+            0% { transform: translate(-50%, 0) scale(1); opacity: 0.8; }
+            100% { transform: translate(-80%, -40px) scale(3); opacity: 0; }
+        }
+
+        /* Custom Scrollbar for Card Wishes */
+        .custom-scroll::-webkit-scrollbar {
+            width: 5px;
+        }
+        .custom-scroll::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: rgba(236, 72, 153, 0.4);
+            border-radius: 10px;
+        }
+
+        /* Audio Visualizer Waves */
+        .visualizer-bar {
+            width: 3px;
+            background: linear-gradient(to top, #ec4899, #8b5cf6);
+            border-radius: 3px;
+            transition: height 0.1s ease;
+        }
+
+        /* 3D Card Hover Effect Container */
+        .tilt-card {
+            transform-style: preserve-3d;
+            transition: transform 0.15s cubic-bezier(0.2, 0, 0.2, 1);
         }
     </style>
 </head>
-<body>
+<body class="flex items-center justify-center min-h-screen p-4 sm:p-6 overflow-x-hidden">
 
-    <!-- Background Audio Element with song.mp3 -->
-<audio id="birthdayAudio" preload="auto" loop>
-    <source src="song.mp3" type="audio/mpeg">
-</audio>
+    <!-- Ambient Glowing Background -->
+    <div class="ambient-bg"></div>
 
-    <!-- Intro Gift Screen -->
-    <div class="intro-overlay" id="introOverlay">
-        <div class="gift-box" onclick="openSurprise()">🎁</div>
-        <h2 style="margin-top: 15px; font-weight: 600; letter-spacing: 1px; color: #fff;">একটি স্পেশাল সারপ্রাইজ অপেক্ষা করছে!</h2>
-        <button class="open-btn" onclick="openSurprise()">Open Surprise ✨</button>
-    </div>
-
-    <!-- Fireworks & Particle Canvas -->
+    <!-- Fireworks Canvas -->
     <canvas id="particleCanvas"></canvas>
-    
-    <!-- Floating Balloons -->
-    <div class="balloon-container" id="balloonContainer"></div>
 
-    <!-- Main Card -->
-    <div class="card" id="mainCard">
-        <div class="profile-wrapper">
-            <span class="birthday-hat">👑</span>
-            <!-- এখানে ছবির নাম Pic.jpeg দেওয়া হয়েছে -->
-            <img src="Pic.jpeg" alt="Birthday Person" class="profile-img" id="profilePic">
+    <!-- Balloon Floating Layer -->
+    <div id="balloonContainer" class="fixed inset-0 pointer-events-none z-10 overflow-hidden"></div>
+
+    <!-- INTRO GIFT OVERLAY -->
+    <div id="introOverlay" class="fixed inset-0 z-50 flex flex-col items-center justify-center p-4 bg-slate-950/90 backdrop-blur-2xl transition-all duration-1000">
+        <div class="relative group cursor-pointer" onclick="openSurprise()">
+            <div class="absolute -inset-4 bg-gradient-to-r from-pink-500 via-purple-500 to-amber-500 rounded-full blur-xl opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-pulse"></div>
+            <div class="relative text-8xl sm:text-9xl transition-transform duration-500 transform group-hover:scale-110 active:scale-95 animate-bounce">
+                🎁
+            </div>
         </div>
+        
+        <h2 class="mt-8 text-2xl sm:text-3xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-pink-300 via-purple-200 to-amber-200 tracking-wide">
+            একটি বিশেষ সারপ্রাইজ অপেক্ষা করছে!
+        </h2>
+        <p class="mt-2 text-slate-400 text-sm sm:text-base text-center">সারপ্রাইজটি খুলতে উপহারের বাক্সে বা নিচের বাটনে ট্যাপ করুন ✨</p>
 
-        <h1 id="nameHeader">Happy Birthday! 🎉</h1>
-        <p class="subtitle">🎂 Happy Birthday ! 🎉✨
-        
-        আপনার দিনগুলো  সুন্দর ও আনন্দময় কাটুক,
-        
-        জীবনে অনেক সুখী হোন,
-        
-        আল্লাহ আপনাকে সবসময়ের জন্য সুস্থতা দান করুন,
-        
-        আর আপনার সকল নেক ইচ্ছেগুলো পূরণ হোক—এই প্রত্যাশাই করি।
-        
-        আর আমাদের এই সম্পর্কটি সারা জীবন এভাবেই থাকুক!  হয়তো কোনো একসময় নিয়মিত আর কথা বলা হবে না। তবুও সপ্তাহে একবার হলেও যেন আমাদের কথা হয়,  তাও না হলে মাসে একবার হলেও কথা হোক,  আর যদি তাও সম্ভব না হয়, তবে অন্তত বছরে একবার হলেও যেন যোগাযোগ থাকে! 
-        
-        আজকের দিনটি আপনার অনেক সুন্দর কাটুক! শুভ জন্মদিন আবার! 🌸️</p>
-
-        <div class="wish-box" id="wishText">
-            ✨ নিচে বাটনে ক্লিক করে জাদুকরী অ্যানিমেশন ও মিউজিক উপভোগ করো! ✨
-        </div>
-
-        <div class="btn-group">
-            <button class="btn" onclick="triggerCelebration()">🎈 Fireworks! 🎉</button>
-            <button class="btn btn-secondary" id="musicBtn" onclick="toggleMusic()">🎵 Play Music 🎶</button>
-            <button class="btn btn-full" onclick="cutCake()">🎂 Cut Virtual Cake 🍰</button>
-        </div>
-
-        <p class="footer-note">Crafted with infinite ❤️ for someone very special</p>
+        <button onclick="openSurprise()" class="mt-8 px-8 py-4 rounded-full bg-gradient-to-r from-pink-500 via-purple-600 to-indigo-600 text-white font-semibold text-lg shadow-lg shadow-pink-500/30 hover:shadow-pink-500/60 hover:scale-105 active:scale-95 transition-all duration-300 flex items-center gap-3">
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
+            <span>সারপ্রাইজ আনলক করুন</span>
+        </button>
     </div>
 
+    <!-- MAIN BIRTHDAY CARD CONTAINER -->
+    <div id="mainCard" class="tilt-card glass-card relative z-20 w-full max-w-lg rounded-3xl p-6 sm:p-8 opacity-0 scale-90 transition-all duration-1000 border border-white/20 shadow-2xl my-auto">
+        
+        <!-- Top Toolbar (Customizer & Music Indicator) -->
+        <div class="flex justify-between items-center mb-6">
+            <button onclick="toggleCustomizerModal()" class="glass-btn px-3 py-1.5 rounded-full text-xs font-medium text-pink-300 flex items-center gap-2 hover:text-white">
+                <i class="fa-solid fa-sliders"></i>
+                <span>কাস্টমাইজ করুন</span>
+            </button>
+
+            <!-- Audio Beat Visualizer Pill -->
+            <div id="visualizerPill" class="glass-btn px-3 py-1.5 rounded-full flex items-center gap-1.5 cursor-pointer" onclick="toggleMusic()">
+                <div class="flex items-end gap-0.5 h-3">
+                    <div class="visualizer-bar h-1" id="bar1"></div>
+                    <div class="visualizer-bar h-2" id="bar2"></div>
+                    <div class="visualizer-bar h-1" id="bar3"></div>
+                </div>
+                <span id="musicBtnLabel" class="text-xs text-slate-300 font-medium">🎵 মিউজিক</span>
+            </div>
+        </div>
+
+        <!-- Profile Photo Frame with Avatar fallback & Upload Trigger -->
+        <div class="profile-container flex justify-center mb-6 relative">
+            <div class="profile-ring relative group cursor-pointer" onclick="document.getElementById('photoInput').click()">
+                <div class="w-32 h-32 sm:w-36 sm:h-36 rounded-full overflow-hidden border-2 border-white/40 shadow-inner bg-slate-900 flex items-center justify-center relative">
+                    <img id="profilePic" src="Pic.jpeg" onerror="this.onerror=null; this.src='https://placehold.co/400x400/2a1b4e/ffffff?text=Happy+Birthday';" alt="Birthday Person" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center text-xs text-white gap-1">
+                        <i class="fa-solid fa-camera text-base"></i>
+                        <span>ছবি চেঞ্জ করুন</span>
+                    </div>
+                </div>
+                <!-- Crown Badge -->
+                <div class="absolute -top-3 -right-2 text-3xl sm:text-4xl filter drop-shadow-md animate-bounce">
+                    👑
+                </div>
+            </div>
+            <!-- Hidden Photo Uploader -->
+            <input type="file" id="photoInput" accept="image/*" class="hidden" onchange="loadUserPhoto(event)">
+        </div>
+
+        <!-- Dynamic Header Name -->
+        <div class="text-center mb-4">
+            <h1 id="nameHeader" class="text-3xl sm:text-4xl font-extrabold tracking-wide glow-text mb-1">
+                শুভ জন্মদিন! 🎉
+            </h1>
+            <p class="text-xs sm:text-sm text-pink-300 font-medium tracking-widest uppercase gold-text">
+                ✨ Wishing You Endless Joy & Happiness ✨
+            </p>
+        </div>
+
+        <!-- Bengali Wish Letter Card Body -->
+        <div class="relative bg-slate-950/40 rounded-2xl p-4 sm:p-5 mb-6 border border-white/10 custom-scroll max-h-60 overflow-y-auto">
+            <p id="bengaliWishBody" class="text-sm sm:text-base leading-relaxed text-slate-200 font-normal space-y-3">
+                🎂 <span class="font-semibold text-pink-300">Happy Birthday!</span> 🎉✨<br><br>
+                আপনার দিনগুলো সুন্দর ও আনন্দময় কাটুক,<br>
+                জীবনে অনেক সুখী হোন,<br>
+                আল্লাহ আপনাকে সবসময়ের জন্য সুস্থতা দান করুন,<br>
+                আর আপনার সকল নেক ইচ্ছেগুলো পূরণ হোক—এই প্রত্যাশাই করি।<br><br>
+                আর আমাদের এই সম্পর্কটি সারা জীবন এভাবেই থাকুক! হয়তো কোনো একসময় নিয়মিত আর কথা বলা হবে না। তবুও সপ্তাহে একবার হলেও যেন আমাদের কথা হয়, তাও না হলে মাসে একবার হলেও কথা হোক, আর যদি তাও সম্ভব না হয়, তবে অন্তত বছরে একবার হলেও যেন যোগাযোগ থাকে!<br><br>
+                আজকের দিনটি আপনার অনেক সুন্দর কাটুক! শুভ জন্মদিন আবার! 🌸✨
+            </p>
+        </div>
+
+        <!-- INTERACTIVE SVG BIRTHDAY CAKE SECTION -->
+        <div class="mb-6 bg-purple-950/20 border border-purple-500/20 rounded-2xl p-4 text-center relative overflow-hidden">
+            <div class="text-xs text-purple-300 mb-2 font-medium flex items-center justify-center gap-1">
+                <span>👇 মোমবাতিতে ট্যাপ করুন অথবা কেক কাটুন</span>
+            </div>
+
+            <!-- SVG Cake -->
+            <div class="relative w-40 h-32 mx-auto cursor-pointer flex justify-center items-end" onclick="handleCakeInteraction(event)">
+                <!-- Candle 1 -->
+                <div class="absolute left-10 top-4 w-2.5 h-10 bg-gradient-to-t from-pink-500 to-yellow-300 rounded-sm">
+                    <div id="flame1" class="flame" onclick="extinguishSingleFlame(event, 'flame1')"></div>
+                </div>
+                <!-- Candle 2 (Center) -->
+                <div class="absolute left-1/2 -translate-x-1/2 top-1 w-2.5 h-12 bg-gradient-to-t from-purple-500 to-pink-300 rounded-sm">
+                    <div id="flame2" class="flame" onclick="extinguishSingleFlame(event, 'flame2')"></div>
+                </div>
+                <!-- Candle 3 -->
+                <div class="absolute right-10 top-4 w-2.5 h-10 bg-gradient-to-t from-blue-500 to-cyan-300 rounded-sm">
+                    <div id="flame3" class="flame" onclick="extinguishSingleFlame(event, 'flame3')"></div>
+                </div>
+
+                <!-- Cake Layers -->
+                <svg viewBox="0 0 200 120" class="w-full h-24 filter drop-shadow-lg">
+                    <!-- Base Layer -->
+                    <rect x="20" y="60" width="160" height="50" rx="10" fill="#3b0764"/>
+                    <path d="M 20 70 Q 35 85 50 70 Q 65 85 80 70 Q 95 85 110 70 Q 125 85 140 70 Q 155 85 170 70 Q 180 85 180 70 L 180 60 L 20 60 Z" fill="#ec4899"/>
+                    <!-- Top Layer -->
+                    <rect x="40" y="30" width="120" height="35" rx="8" fill="#581c87"/>
+                    <path d="M 40 40 Q 55 52 70 40 Q 85 52 100 40 Q 115 52 130 40 Q 145 52 160 40 L 160 30 L 40 30 Z" fill="#f472b6"/>
+                    <!-- Cherries / Sprinkles -->
+                    <circle cx="50" cy="28" r="5" fill="#ef4444"/>
+                    <circle cx="100" cy="26" r="5" fill="#ef4444"/>
+                    <circle cx="150" cy="28" r="5" fill="#ef4444"/>
+                </svg>
+            </div>
+            
+            <p id="cakeStatusText" class="text-xs text-amber-200 mt-2 font-medium">
+                🎂 মোমবাতি নেভাতে ফুঁ দিন (ক্লিক করুন)!
+            </p>
+        </div>
+
+        <!-- Interactive Dynamic Message Banner -->
+        <div id="wishBoxBanner" class="hidden mb-5 p-3 rounded-xl bg-pink-500/20 border border-pink-500/40 text-center text-xs sm:text-sm text-pink-100 animate-fade-in">
+            <!-- Dynamic celebration wishes appear here -->
+        </div>
+
+        <!-- Action Buttons Grid -->
+        <div class="grid grid-cols-2 gap-3 mb-4">
+            <button onclick="triggerCelebrationFireworks()" class="glass-btn p-3 rounded-2xl flex items-center justify-center gap-2 text-xs sm:text-sm font-semibold text-pink-200 hover:text-white">
+                <span class="text-base">🎆</span>
+                <span>আতশবাজি!</span>
+            </button>
+            <button id="musicToggleBtn" onclick="toggleMusic()" class="glass-btn p-3 rounded-2xl flex items-center justify-center gap-2 text-xs sm:text-sm font-semibold text-cyan-200 hover:text-white">
+                <span class="text-base">🎵</span>
+                <span id="musicBtnText">প্লে মিউজিক</span>
+            </button>
+            <button onclick="cutCakeFull()" class="col-span-2 glass-btn p-3.5 rounded-2xl bg-gradient-to-r from-amber-500/20 via-pink-500/20 to-purple-500/20 border border-amber-500/40 flex items-center justify-center gap-2 text-xs sm:text-sm font-bold text-amber-200 hover:text-white shadow-lg">
+                <span class="text-base">🎂</span>
+                <span>কেক কাটুন ও উইশ শেয়ার করুন 🍰</span>
+            </button>
+        </div>
+
+        <!-- Footer -->
+        <div class="text-center pt-2 border-t border-white/10">
+            <p class="text-[10px] sm:text-xs text-slate-400 font-light flex items-center justify-center gap-1">
+                <span>Crafted with infinite</span>
+                <i class="fa-solid fa-heart text-pink-500 animate-pulse"></i>
+                <span>for someone very special</span>
+            </p>
+        </div>
+    </div>
+
+    <!-- CUSTOMIZER MODAL (Edit Name & Wishes) -->
+    <div id="customizerModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md hidden opacity-0 transition-opacity duration-300">
+        <div class="glass-card w-full max-w-md rounded-3xl p-6 border border-white/20">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-bold text-pink-300 flex items-center gap-2">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                    <span>বার্তা কাস্টমাইজ করুন</span>
+                </h3>
+                <button onclick="toggleCustomizerModal()" class="text-slate-400 hover:text-white">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+
+            <div class="space-y-4 text-xs sm:text-sm">
+                <div>
+                    <label class="block text-slate-300 mb-1 font-medium">নাম বা হেডার:</label>
+                    <input type="text" id="inputName" class="w-full bg-slate-900/80 border border-white/20 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-pink-500" placeholder="যেমন: শুভ জন্মদিন তানিয়া! 🎉">
+                </div>
+                <div>
+                    <label class="block text-slate-300 mb-1 font-medium">জন্মদিনের শুভেচ্ছা বার্তা:</label>
+                    <textarea id="inputWish" rows="5" class="w-full bg-slate-900/80 border border-white/20 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-pink-500 custom-scroll" placeholder="আপনার সুন্দর ইচ্ছেগুলো লিখুন..."></textarea>
+                </div>
+            </div>
+
+            <div class="mt-6 flex justify-end gap-3">
+                <button onclick="toggleCustomizerModal()" class="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 hover:bg-slate-700 text-xs font-semibold">বাতিল</button>
+                <button onclick="saveCustomizations()" class="px-5 py-2 rounded-xl bg-gradient-to-r from-pink-500 to-purple-600 text-white text-xs font-bold shadow-md hover:scale-105 transition-transform">সংরক্ষণ করুন</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Audio Element (Audio file with automatic fallback synthesizer) -->
+    <audio id="birthdayAudio" preload="auto" loop>
+        <source src="song.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- JAVASCRIPT LOGIC -->
     <script>
-        // Floating Balloons Generator
+        /* ----------------------------------------------------
+           1. BALLOON & AMBIENT PARTICLE ENGINE
+        ---------------------------------------------------- */
         const balloonContainer = document.getElementById('balloonContainer');
-        const colors = ['#ff4b5c', '#ffb400', '#00c9a7', '#845ec2', '#ff8066', '#4d96ff', '#f368e0'];
+        const balloonColors = ['#ec4899', '#8b5cf6', '#3b82f6', '#f59e0b', '#10b981', '#f43f5e', '#a855f7'];
 
-        for (let i = 0; i < 30; i++) {
-            const balloon = document.createElement('div');
-            balloon.className = 'balloon';
-            balloon.style.left = `${Math.random() * 100}%`;
-            balloon.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-            balloon.style.animationDuration = `${7 + Math.random() * 6}s`;
-            balloon.style.animationDelay = `${Math.random() * 5}s`;
-            balloonContainer.appendChild(balloon);
+        function createBalloons() {
+            for (let i = 0; i < 22; i++) {
+                const balloon = document.createElement('div');
+                balloon.className = 'balloon';
+                balloon.style.left = `${Math.random() * 95}%`;
+                balloon.style.backgroundColor = balloonColors[Math.floor(Math.random() * balloonColors.length)];
+                balloon.style.animationDuration = `${8 + Math.random() * 8}s`;
+                balloon.style.animationDelay = `${Math.random() * 6}s`;
+                balloonContainer.appendChild(balloon);
+            }
         }
+        createBalloons();
 
-        // Canvas Fireworks & Particle System
+        /* ----------------------------------------------------
+           2. FIREWORKS & GLITTER CANVAS SYSTEM
+        ---------------------------------------------------- */
         const canvas = document.getElementById('particleCanvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
@@ -348,28 +476,29 @@
         resizeCanvas();
 
         class Particle {
-            constructor(x, y, isFirework = false) {
+            constructor(x, y, isFirework = false, type = 'circle') {
                 this.x = x || Math.random() * canvas.width;
                 this.y = y || (isFirework ? canvas.height : Math.random() * canvas.height);
-                this.size = isFirework ? Math.random() * 4 + 2 : Math.random() * 2 + 0.8;
+                this.size = isFirework ? Math.random() * 3.5 + 1.5 : Math.random() * 2 + 0.5;
                 
                 const angle = Math.random() * Math.PI * 2;
-                const speed = isFirework ? Math.random() * 8 + 2 : Math.random() * 1.5;
+                const speed = isFirework ? Math.random() * 9 + 2 : Math.random() * 1.2;
                 
-                this.speedX = isFirework ? Math.cos(angle) * speed : (Math.random() - 0.5) * 1.5;
-                this.speedY = isFirework ? Math.sin(angle) * speed : (Math.random() - 0.5) * 1.5;
+                this.speedX = isFirework ? Math.cos(angle) * speed : (Math.random() - 0.5) * 1.2;
+                this.speedY = isFirework ? Math.sin(angle) * speed : (Math.random() - 0.5) * 1.2;
                 
-                this.color = colors[Math.floor(Math.random() * colors.length)];
+                this.color = balloonColors[Math.floor(Math.random() * balloonColors.length)];
                 this.opacity = 1;
-                this.decay = isFirework ? Math.random() * 0.015 + 0.01 : 0;
+                this.decay = isFirework ? Math.random() * 0.018 + 0.012 : 0;
                 this.isFirework = isFirework;
+                this.type = type; // 'circle' or 'heart'
             }
 
             update() {
                 this.x += this.speedX;
                 this.y += this.speedY;
                 if (this.isFirework) {
-                    this.speedY += 0.08;
+                    this.speedY += 0.07; // Gravity
                     this.opacity -= this.decay;
                 } else {
                     if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
@@ -381,16 +510,26 @@
                 ctx.save();
                 ctx.globalAlpha = Math.max(this.opacity, 0);
                 ctx.fillStyle = this.color;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
+                
+                if (this.type === 'heart') {
+                    // Draw mini heart particle
+                    ctx.font = `${this.size * 4}px serif`;
+                    ctx.fillText('💖', this.x, this.y);
+                } else {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
                 ctx.restore();
             }
         }
 
-        for (let i = 0; i < 70; i++) particles.push(new Particle(null, null, false));
+        // Initialize background glittering stardust
+        for (let i = 0; i < 60; i++) {
+            particles.push(new Particle(null, null, false));
+        }
 
-        function animateParticles() {
+        function renderCanvas() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             for (let i = particles.length - 1; i >= 0; i--) {
                 particles[i].update();
@@ -399,78 +538,337 @@
                     particles.splice(i, 1);
                 }
             }
-            requestAnimationFrame(animateParticles);
+            requestAnimationFrame(renderCanvas);
         }
-        animateParticles();
+        renderCanvas();
 
         function launchFireworks(x, y, count = 80) {
             for (let i = 0; i < count; i++) {
-                particles.push(new Particle(x, y, true));
+                const isHeart = Math.random() > 0.7;
+                particles.push(new Particle(x, y, true, isHeart ? 'heart' : 'circle'));
             }
         }
 
-        // Audio element control
-        const audio = document.getElementById('birthdayAudio');
+        /* ----------------------------------------------------
+           3. WEB AUDIO SYNTHESIZER FALLBACK
+        ---------------------------------------------------- */
+        let audioCtx = null;
         let isPlaying = false;
+        let synthInterval = null;
+
+        // Tune notes for "Happy Birthday To You"
+        const birthdayNotes = [
+            { note: 264, duration: 350 }, { note: 264, duration: 350 }, { note: 297, duration: 700 }, { note: 264, duration: 700 }, { note: 352, duration: 700 }, { note: 330, duration: 1200 },
+            { note: 264, duration: 350 }, { note: 264, duration: 350 }, { note: 297, duration: 700 }, { note: 264, duration: 700 }, { note: 396, duration: 700 }, { note: 352, duration: 1200 },
+            { note: 264, duration: 350 }, { note: 264, duration: 350 }, { note: 528, duration: 700 }, { note: 440, duration: 700 }, { note: 352, duration: 700 }, { note: 330, duration: 700 }, { note: 297, duration: 1000 },
+            { note: 466, duration: 350 }, { note: 466, duration: 350 }, { note: 440, duration: 700 }, { note: 352, duration: 700 }, { note: 396, duration: 700 }, { note: 352, duration: 1200 }
+        ];
+
+        function playSynthTone(freq, duration) {
+            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+
+            try {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+
+                gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + (duration / 1000));
+
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                osc.start();
+                osc.stop(audioCtx.currentTime + (duration / 1000));
+            } catch (e) {
+                console.log('Audio synth error:', e);
+            }
+        }
+
+        let currentNoteIndex = 0;
+        function startSynthMelody() {
+            if (synthInterval) clearInterval(synthInterval);
+            currentNoteIndex = 0;
+            
+            function nextNote() {
+                if (!isPlaying) return;
+                const current = birthdayNotes[currentNoteIndex];
+                playSynthTone(current.note, current.duration);
+                currentNoteIndex = (currentNoteIndex + 1) % birthdayNotes.length;
+                synthInterval = setTimeout(nextNote, current.duration + 60);
+                animateVisualizer();
+            }
+            nextNote();
+        }
+
+        function stopSynthMelody() {
+            if (synthInterval) clearTimeout(synthInterval);
+            resetVisualizer();
+        }
+
+        // HTML Audio element fallback controller
+        const audioEl = document.getElementById('birthdayAudio');
 
         function playSong() {
-            audio.play().then(() => {
-                isPlaying = true;
-                document.getElementById('musicBtn').innerText = "⏸️ Pause Music 🎶";
-            }).catch(e => {
-                console.log("Audio play prevented:", e);
-            });
+            isPlaying = true;
+            updateMusicUI(true);
+
+            // Attempt to play local mp3
+            const playPromise = audioEl.play();
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    // Audio file is playing successfully
+                    startVisualizerAnimation();
+                }).catch(() => {
+                    // File missing or blocked; use Web Audio Synthesizer!
+                    startSynthMelody();
+                });
+            }
+        }
+
+        function pauseSong() {
+            isPlaying = false;
+            audioEl.pause();
+            stopSynthMelody();
+            updateMusicUI(false);
         }
 
         function toggleMusic() {
             if (isPlaying) {
-                audio.pause();
-                isPlaying = false;
-                document.getElementById('musicBtn').innerText = "🎵 Play Music 🎶";
+                pauseSong();
             } else {
                 playSong();
             }
         }
 
-        // Intro Screen Handler
-        function openSurprise() {
-            const overlay = document.getElementById('introOverlay');
-            const card = document.getElementById('mainCard');
-            
-            if (overlay) overlay.classList.add('hidden');
-            if (card) card.classList.add('show');
-            
-            launchFireworks(window.innerWidth / 2, window.innerHeight / 2, 120);
-            playSong();
+        function updateMusicUI(active) {
+            const musicBtnText = document.getElementById('musicBtnText');
+            const musicBtnLabel = document.getElementById('musicBtnLabel');
+            if (active) {
+                if (musicBtnText) musicBtnText.innerText = "থামান";
+                if (musicBtnLabel) musicBtnLabel.innerText = "⏸️ মিউজিক";
+            } else {
+                if (musicBtnText) musicBtnText.innerText = "প্লে মিউজিক";
+                if (musicBtnLabel) musicBtnLabel.innerText = "🎵 মিউজিক";
+            }
         }
 
-        function triggerCelebration() {
+        /* ----------------------------------------------------
+           4. AUDIO VISUALIZER BARS ANIMATION
+        ---------------------------------------------------- */
+        let visInterval = null;
+        function animateVisualizer() {
+            const b1 = document.getElementById('bar1');
+            const b2 = document.getElementById('bar2');
+            const b3 = document.getElementById('bar3');
+            if (b1 && b2 && b3) {
+                b1.style.height = `${Math.floor(Math.random() * 12 + 4)}px`;
+                b2.style.height = `${Math.floor(Math.random() * 16 + 6)}px`;
+                b3.style.height = `${Math.floor(Math.random() * 12 + 4)}px`;
+            }
+        }
+
+        function startVisualizerAnimation() {
+            if (visInterval) clearInterval(visInterval);
+            visInterval = setInterval(() => {
+                if (isPlaying) animateVisualizer();
+            }, 150);
+        }
+
+        function resetVisualizer() {
+            if (visInterval) clearInterval(visInterval);
+            const b1 = document.getElementById('bar1');
+            const b2 = document.getElementById('bar2');
+            const b3 = document.getElementById('bar3');
+            if (b1 && b2 && b3) {
+                b1.style.height = '4px';
+                b2.style.height = '8px';
+                b3.style.height = '4px';
+            }
+        }
+
+        /* ----------------------------------------------------
+           5. INTERACTIVE CANDLE & CAKE CUTTING
+        ---------------------------------------------------- */
+        let activeFlames = 3;
+
+        function extinguishSingleFlame(e, flameId) {
+            e.stopPropagation();
+            const flame = document.getElementById(flameId);
+            if (flame && !flame.classList.contains('extinguished')) {
+                flame.classList.add('extinguished');
+                activeFlames--;
+
+                // Spawn Smoke
+                const smoke = document.createElement('div');
+                smoke.className = 'smoke';
+                flame.parentElement.appendChild(smoke);
+                setTimeout(() => smoke.remove(), 1500);
+
+                // Small glitter effect
+                const rect = flame.getBoundingClientRect();
+                launchFireworks(rect.left + 5, rect.top, 25);
+
+                checkCakeStatus();
+            }
+        }
+
+        function handleCakeInteraction(e) {
+            // Extinguish all remaining flames if cake body is clicked
+            if (activeFlames > 0) {
+                ['flame1', 'flame2', 'flame3'].forEach(id => {
+                    const f = document.getElementById(id);
+                    if (f && !f.classList.contains('extinguished')) {
+                        f.classList.add('extinguished');
+                        const smoke = document.createElement('div');
+                        smoke.className = 'smoke';
+                        f.parentElement.appendChild(smoke);
+                        setTimeout(() => smoke.remove(), 1500);
+                    }
+                });
+                activeFlames = 0;
+                checkCakeStatus();
+            } else {
+                // Cake already cut celebration
+                cutCakeFull();
+            }
+        }
+
+        function checkCakeStatus() {
+            const statusText = document.getElementById('cakeStatusText');
+            if (activeFlames === 0) {
+                statusText.innerText = "✨ চমৎকার! সব মোমবাতি নেভানো হয়েছে! কেক কাটুন 🍰";
+                launchFireworks(window.innerWidth / 2, window.innerHeight / 3, 100);
+            } else {
+                statusText.innerText = `🎂 আরও ${activeFlames} টি মোমবাতি বাকি!`;
+            }
+        }
+
+        function cutCakeFull() {
+            // Extinguish all flames
+            ['flame1', 'flame2', 'flame3'].forEach(id => {
+                const f = document.getElementById(id);
+                if (f) f.classList.add('extinguished');
+            });
+            activeFlames = 0;
+
+            document.getElementById('cakeStatusText').innerText = "🎂 Yummy! কেক কাটা সম্পন্ন হয়েছে! শুভ দিন! 🍰✨";
+
+            launchFireworks(window.innerWidth / 2, window.innerHeight / 2.5, 150);
+            showWishBanner("🎂 কেক কাটা হলো! মিষ্টি মুখে দিনটি উদযাপিত হোক! 🍰🎉");
+            if (!isPlaying) playSong();
+        }
+
+        /* ----------------------------------------------------
+           6. CELEBRATIONS & WISH BANNER
+        ---------------------------------------------------- */
+        function triggerCelebrationFireworks() {
             const rx = Math.random() * canvas.width * 0.8 + canvas.width * 0.1;
-            const ry = Math.random() * canvas.height * 0.5 + canvas.height * 0.2;
-            launchFireworks(rx, ry, 100);
-            
-            const wishBox = document.getElementById('wishText');
+            const ry = Math.random() * canvas.height * 0.5 + canvas.height * 0.15;
+            launchFireworks(rx, ry, 120);
+
             const wishes = [
                 "🎂 শুভ জন্মদিন! আপনার নতুন বছরটি হোক অনেক সুখ ও সাফল্যে মোড়ানো!",
                 "🌟 আপনার প্রতিটি দিন হাসি ও আনন্দে ভরপুর থাকুক!",
                 "🎉 আল্লাহ আপনার সকল মনবাঞ্ছা পূর্ণ করুন, এই কামনাই করি!",
-                "🎁 আপনি আমার কাছে অনেক বিশেষ, তাই এভাবেই হাসিখুশি থাকিয়েন !"
+                "🎁 আপনি আমাদের জন্য অনেক বিশেষ, এভাবেই হাসিখুশি থাকুন!"
             ];
             const randomWish = wishes[Math.floor(Math.random() * wishes.length)];
-            
-            wishBox.style.opacity = '0';
-            setTimeout(() => {
-                wishBox.innerHTML = randomWish;
-                wishBox.style.opacity = '1';
-            }, 300);
+            showWishBanner(randomWish);
         }
 
-        function cutCake() {
-            launchFireworks(canvas.width / 2, canvas.height / 3, 150);
-            const wishBox = document.getElementById('wishText');
-            wishBox.innerHTML = "🎂 Yummy! কেক কাটা সম্পন্ন হলো! সবাই মিলে মিষ্টি মুখ করা যাক! 🍰✨";
-            if (!isPlaying) playSong();
+        function showWishBanner(msg) {
+            const banner = document.getElementById('wishBoxBanner');
+            banner.innerText = msg;
+            banner.classList.remove('hidden');
+            banner.style.opacity = '1';
         }
+
+        /* ----------------------------------------------------
+           7. INTRO OVERLAY HANDLER
+        ---------------------------------------------------- */
+        function openSurprise() {
+            const overlay = document.getElementById('introOverlay');
+            const card = document.getElementById('mainCard');
+            
+            overlay.style.opacity = '0';
+            setTimeout(() => {
+                overlay.style.display = 'none';
+            }, 1000);
+
+            card.classList.remove('opacity-0', 'scale-90');
+            card.classList.add('opacity-100', 'scale-100');
+
+            // Fireworks burst
+            launchFireworks(window.innerWidth / 2, window.innerHeight / 2, 140);
+            
+            // Start Music
+            playSong();
+        }
+
+        /* ----------------------------------------------------
+           8. USER PHOTO UPLOADER
+        ---------------------------------------------------- */
+        function loadUserPhoto(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('profilePic').src = e.target.result;
+                    launchFireworks(window.innerWidth / 2, window.innerHeight / 3, 60);
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        /* ----------------------------------------------------
+           9. DYNAMIC CUSTOMIZER MODAL (EDIT NAME & WISH)
+        ---------------------------------------------------- */
+        function toggleCustomizerModal() {
+            const modal = document.getElementById('customizerModal');
+            if (modal.classList.contains('hidden')) {
+                modal.classList.remove('hidden');
+                setTimeout(() => modal.classList.remove('opacity-0'), 10);
+            } else {
+                modal.classList.add('opacity-0');
+                setTimeout(() => modal.classList.add('hidden'), 300);
+            }
+        }
+
+        function saveCustomizations() {
+            const newName = document.getElementById('inputName').value.trim();
+            const newWish = document.getElementById('inputWish').value.trim();
+
+            if (newName !== "") {
+                document.getElementById('nameHeader').innerText = newName;
+            }
+            if (newWish !== "") {
+                // Preserve line breaks
+                document.getElementById('bengaliWishBody').innerHTML = newWish.replace(/\n/g, '<br>');
+            }
+
+            toggleCustomizerModal();
+            launchFireworks(window.innerWidth / 2, window.innerHeight / 2, 80);
+        }
+
+        /* ----------------------------------------------------
+           10. 3D PARALLAX TILT EFFECT ON CARD
+        ---------------------------------------------------- */
+        const mainCard = document.getElementById('mainCard');
+        document.addEventListener('mousemove', (e) => {
+            if (window.innerWidth < 768) return; // Only desktop tilt
+            const xAxis = (window.innerWidth / 2 - e.pageX) / 35;
+            const yAxis = (window.innerHeight / 2 - e.pageY) / 35;
+            mainCard.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+        });
+
+        // Reset card orientation on mouse leave
+        document.addEventListener('mouseleave', () => {
+            mainCard.style.transform = `rotateY(0deg) rotateX(0deg)`;
+        });
     </script>
 </body>
 </html>
+```
