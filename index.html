@@ -267,7 +267,9 @@
 <body>
 
     <!-- Background Audio Element with song.mp3 -->
-    <audio id="birthdayAudio" src="song.mp3" preload="auto" loop></audio>
+<audio id="birthdayAudio" preload="auto" loop>
+    <source src="song.mp3" type="audio/mpeg">
+</audio>
 
     <!-- Intro Gift Screen -->
     <div class="intro-overlay" id="introOverlay">
