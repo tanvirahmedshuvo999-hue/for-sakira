@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultimate Happy Birthday Experience! 🎂✨</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: radial-gradient(circle at center, #1a1c29 0%, #080511 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+            color: #fff;
+        }
+
+        /* Canvas for Fireworks & Particles */
+        #particleCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Gift Box Intro Overlay */
+        .intro-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(8, 5, 17, 0.96);
+            backdrop-filter: blur(20px);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+
+        .intro-overlay.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .gift-box {
+            font-size: 90px;
+            cursor: pointer;
+            animation: bounceGift 2s infinite ease-in-out;
+            filter: drop-shadow(0 0 30px rgba(255, 105, 180, 0.6));
+        }
+
+        @keyframes bounceGift {
+            0%, 100% { transform: translateY(0) scale(1) rotate(0deg); }
+            50% { transform: translateY(-20px) scale(1.08) rotate(5deg); }
+        }
+
+        .open-btn {
+            margin-top: 25px;
+            background: linear-gradient(45deg, #ff758c, #ff7eb3);
+            color: white;
+            border: none;
+            padding: 14px 35px;
+            border-radius: 35px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 0 25px rgba(255, 117, 140, 0.6);
+            transition: all 0.3s ease;
+        }
+
+        .open-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 40px rgba(255, 117, 140, 0.9);
+        }
+
+        /* Floating Balloons */
+        .balloon-container {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .balloon {
+            position: absolute;
+            bottom: -120px;
+            width: 45px;
+            height: 60px;
+            border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+            animation: floatUp 9s infinite ease-in;
+            opacity: 0.8;
+        }
+
+        .balloon::before {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 20px;
+            width: 2px;
+            height: 35px;
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0.8; }
+            100% { transform: translateY(-115vh) rotate(15deg); opacity: 0.1; }
+        }
+
+        /* Main Glass Card */
+        .card {
+            position: relative;
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.07);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 30px;
+            padding: 35px 25px;
+            width: 92%;
+            max-width: 460px;
+            text-align: center;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7), 0 0 40px rgba(255, 105, 180, 0.2);
+            transform: scale(0.85);
+            opacity: 0;
+            transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .card.show {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        /* Profile Image Container */
+        .profile-wrapper {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 15px;
+        }
+
+        .profile-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 4px solid #ff758c;
+            box-shadow: 0 0 30px rgba(255, 117, 140, 0.9);
+            animation: pulseGlow 3s infinite alternate;
+        }
+
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 20px rgba(255, 117, 140, 0.6); transform: scale(1); }
+            100% { box-shadow: 0 0 35px rgba(255, 117, 140, 1), 0 0 55px rgba(255, 126, 179, 0.8); transform: scale(1.03); }
+        }
+
+        .birthday-hat {
+            position: absolute;
+            top: -22px;
+            right: 5px;
+            font-size: 40px;
+            transform: rotate(20deg);
+            animation: bounceHat 2s infinite ease-in-out;
+        }
+
+        @keyframes bounceHat {
+            0%, 100% { transform: rotate(20deg) translateY(0); }
+            50% { transform: rotate(25deg) translateY(-8px); }
+        }
+
+        h1 {
+            font-size: 26px;
+            font-weight: 800;
+            background: linear-gradient(45deg, #ff758c, #ff7eb3, #ffcc00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .subtitle {
+            font-size: 15px;
+            color: #dcd6f7;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .wish-box {
+            background: rgba(0, 0, 0, 0.35);
+            padding: 15px;
+            border-radius: 14px;
+            font-size: 14px;
+            color: #f3f3f3;
+            margin-bottom: 20px;
+            border-left: 4px solid #ff758c;
+            line-height: 1.6;
+            min-height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.3s ease;
+        }
+
+        .btn-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #ff758c, #ff7eb3);
+            color: white;
+            border: none;
+            padding: 11px 15px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 117, 140, 0.4);
+            outline: none;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px) scale(1.04);
+            box-shadow: 0 6px 20px rgba(255, 117, 140, 0.7);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(45deg, #4facfe, #00f2fe);
+            box-shadow: 0 4px 15px rgba(79, 172, 254, 0.4);
+        }
+
+        .btn-full {
+            grid-column: span 2;
+            background: linear-gradient(45deg, #f7b733, #fc4a1a);
+            box-shadow: 0 4px 15px rgba(252, 74, 26, 0.4);
+        }
+
+        .footer-note {
+            margin-top: 10px;
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background Audio Element with song.mp3 -->
+    <audio id="birthdayAudio" src="song.mp3" preload="auto" loop></audio>
+
+    <!-- Intro Gift Screen -->
+    <div class="intro-overlay" id="introOverlay">
+        <div class="gift-box" onclick="openSurprise()">🎁</div>
+        <h2 style="margin-top: 15px; font-weight: 600; letter-spacing: 1px; color: #fff;">একটি স্পেশাল সারপ্রাইজ অপেক্ষা করছে!</h2>
+        <button class="open-btn" onclick="openSurprise()">Open Surprise ✨</button>
+    </div>
+
+    <!-- Fireworks & Particle Canvas -->
+    <canvas id="particleCanvas"></canvas>
+    
+    <!-- Floating Balloons -->
+    <div class="balloon-container" id="balloonContainer"></div>
+
+    <!-- Main Card -->
+    <div class="card" id="mainCard">
+        <div class="profile-wrapper">
+            <span class="birthday-hat">👑</span>
+            <!-- এখানে ছবির নাম Pic.jpeg দেওয়া হয়েছে -->
+            <img src="Pic.jpeg" alt="Birthday Person" class="profile-img" id="profilePic">
+        </div>
+
+        <h1 id="nameHeader">Happy Birthday! 🎉</h1>
+        <p class="subtitle">🎂 Happy Birthday ! 🎉✨
+        
+        আপনার দিনগুলো  সুন্দর ও আনন্দময় কাটুক,
+        
+        জীবনে অনেক সুখী হোন,
+        
+        আল্লাহ আপনাকে সবসময়ের জন্য সুস্থতা দান করুন,
+        
+        আর আপনার সকল নেক ইচ্ছেগুলো পূরণ হোক—এই প্রত্যাশাই করি।
+        
+        আর আমাদের এই সম্পর্কটি সারা জীবন এভাবেই থাকুক!  হয়তো কোনো একসময় নিয়মিত আর কথা বলা হবে না। তবুও সপ্তাহে একবার হলেও যেন আমাদের কথা হয়,  তাও না হলে মাসে একবার হলেও কথা হোক,  আর যদি তাও সম্ভব না হয়, তবে অন্তত বছরে একবার হলেও যেন যোগাযোগ থাকে! 
+        
+        আজকের দিনটি আপনার অনেক সুন্দর কাটুক! শুভ জন্মদিন আবার! 🌸️</p>
+
+        <div class="wish-box" id="wishText">
+            ✨ নিচে বাটনে ক্লিক করে জাদুকরী অ্যানিমেশন ও মিউজিক উপভোগ করো! ✨
+        </div>
+
+        <div class="btn-group">
+            <button class="btn" onclick="triggerCelebration()">🎈 Fireworks! 🎉</button>
+            <button class="btn btn-secondary" id="musicBtn" onclick="toggleMusic()">🎵 Play Music 🎶</button>
+            <button class="btn btn-full" onclick="cutCake()">🎂 Cut Virtual Cake 🍰</button>
+        </div>
+
+        <p class="footer-note">Crafted with infinite ❤️ for someone very special</p>
+    </div>
+
+    <script>
+        // Floating Balloons Generator
+        const balloonContainer = document.getElementById('balloonContainer');
+        const colors = ['#ff4b5c', '#ffb400', '#00c9a7', '#845ec2', '#ff8066', '#4d96ff', '#f368e0'];
+
+        for (let i = 0; i < 30; i++) {
+            const balloon = document.createElement('div');
+            balloon.className = 'balloon';
+            balloon.style.left = `${Math.random() * 100}%`;
+            balloon.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            balloon.style.animationDuration = `${7 + Math.random() * 6}s`;
+            balloon.style.animationDelay = `${Math.random() * 5}s`;
+            balloonContainer.appendChild(balloon);
+        }
+
+        // Canvas Fireworks & Particle System
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor(x, y, isFirework = false) {
+                this.x = x || Math.random() * canvas.width;
+                this.y = y || (isFirework ? canvas.height : Math.random() * canvas.height);
+                this.size = isFirework ? Math.random() * 4 + 2 : Math.random() * 2 + 0.8;
+                
+                const angle = Math.random() * Math.PI * 2;
+                const speed = isFirework ? Math.random() * 8 + 2 : Math.random() * 1.5;
+                
+                this.speedX = isFirework ? Math.cos(angle) * speed : (Math.random() - 0.5) * 1.5;
+                this.speedY = isFirework ? Math.sin(angle) * speed : (Math.random() - 0.5) * 1.5;
+                
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+                this.opacity = 1;
+                this.decay = isFirework ? Math.random() * 0.015 + 0.01 : 0;
+                this.isFirework = isFirework;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.isFirework) {
+                    this.speedY += 0.08;
+                    this.opacity -= this.decay;
+                } else {
+                    if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                    if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+                }
+            }
+
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = Math.max(this.opacity, 0);
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        for (let i = 0; i < 70; i++) particles.push(new Particle(null, null, false));
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = particles.length - 1; i >= 0; i--) {
+                particles[i].update();
+                particles[i].draw();
+                if (particles[i].isFirework && particles[i].opacity <= 0) {
+                    particles.splice(i, 1);
+                }
+            }
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        function launchFireworks(x, y, count = 80) {
+            for (let i = 0; i < count; i++) {
+                particles.push(new Particle(x, y, true));
+            }
+        }
+
+        // Audio element control
+        const audio = document.getElementById('birthdayAudio');
+        let isPlaying = false;
+
+        function playSong() {
+            audio.play().then(() => {
+                isPlaying = true;
+                document.getElementById('musicBtn').innerText = "⏸️ Pause Music 🎶";
+            }).catch(e => {
+                console.log("Audio play prevented:", e);
+            });
+        }
+
+        function toggleMusic() {
+            if (isPlaying) {
+                audio.pause();
+                isPlaying = false;
+                document.getElementById('musicBtn').innerText = "🎵 Play Music 🎶";
+            } else {
+                playSong();
+            }
+        }
+
+        // Intro Screen Handler
+        function openSurprise() {
+            const overlay = document.getElementById('introOverlay');
+            const card = document.getElementById('mainCard');
+            
+            if (overlay) overlay.classList.add('hidden');
+            if (card) card.classList.add('show');
+            
+            launchFireworks(window.innerWidth / 2, window.innerHeight / 2, 120);
+            playSong();
+        }
+
+        function triggerCelebration() {
+            const rx = Math.random() * canvas.width * 0.8 + canvas.width * 0.1;
+            const ry = Math.random() * canvas.height * 0.5 + canvas.height * 0.2;
+            launchFireworks(rx, ry, 100);
+            
+            const wishBox = document.getElementById('wishText');
+            const wishes = [
+                "🎂 শুভ জন্মদিন! আপনার নতুন বছরটি হোক অনেক সুখ ও সাফল্যে মোড়ানো!",
+                "🌟 আপনার প্রতিটি দিন হাসি ও আনন্দে ভরপুর থাকুক!",
+                "🎉 আল্লাহ আপনার সকল মনবাঞ্ছা পূর্ণ করুন, এই কামনাই করি!",
+                "🎁 আপনি কাছে অনেক বিশেষ, এভাবেই হাসিখুশি থাকিয়েন !"
+            ];
+            const randomWish = wishes[Math.floor(Math.random() * wishes.length)];
+            
+            wishBox.style.opacity = '0';
+            setTimeout(() => {
+                wishBox.innerHTML = randomWish;
+                wishBox.style.opacity = '1';
+            }, 300);
+        }
+
+        function cutCake() {
+            launchFireworks(canvas.width / 2, canvas.height / 3, 150);
+            const wishBox = document.getElementById('wishText');
+            wishBox.innerHTML = "🎂 Yummy! কেক কাটা সম্পন্ন হলো! সবাই মিলে মিষ্টি মুখ করা যাক! 🍰✨";
+            if (!isPlaying) playSong();
+        }
+    </script>
+</body>
+</html>
